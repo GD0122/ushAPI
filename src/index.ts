@@ -1,0 +1,53 @@
+import express, { Request, Response } from "express";
+import userR from "./Route/userRoute";
+import cookieParser from 'cookie-parser';
+import rateLimit from "express-rate-limit";
+import helmet from "helmet";
+import tokenR from "./Route/tokenRoute";
+import barangR from "./Route/barangRoute";
+import uploadsR from "./Route/uploadsRoute";
+import transR from "./Route/transRoute";
+// Create a new express application instance
+const app = express();
+
+// Set the network port
+const port = process.env.PORT || 4544;
+app.use(cookieParser());
+app.use(express.json());
+app.disable('x-powered-by')
+
+app.use(helmet.xFrameOptions({action:'deny'}))
+
+app.use(helmet.contentSecurityPolicy({
+    directives:{
+        "script-src":["'self'",]
+    },
+})
+)
+const Limiter = rateLimit({
+    windowMs:1*60*1000,
+    max:50,
+    message:"Server sedang sibuk"
+})
+app.use(Limiter)
+// Define the root path with a greeting message
+app.get("/", (req: Request, res: Response) => {
+    res.json({ message: "API ACTIVE" });
+});
+app.use('/user',userR)
+app.use('/token',tokenR)
+app.use('/brg',barangR)
+app.use('/img',uploadsR)
+app.use('/trans',transR)
+
+// app.use('/*',( req:Request,res:Response )=>{
+//     return res.status(404).json({message:"Sorry Page Not Found"})
+// })
+
+// Start the Express server
+app.listen(port, () => {
+    console.log(`The server is running at http://localhost:${port}`);
+});
+app.use('*',(req:Request,res:Response)=>{
+    return res.status(404).json({message:"not found"}).end()
+})

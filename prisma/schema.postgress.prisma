@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client2"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+
+model User {
+  id        Int      @id @unique @default(autoincrement())
+  name      String   @unique
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Userstatus {
+  id            Int     @unique @id @default(autoincrement())
+  status        Status   @default(nonActive)
+  refresh_token String?
+  userId        Int?     @unique
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Barang {
+  id           Int       @unique @id @default(autoincrement())
+  author       String?
+  nama         String?   @unique
+  deskripsi    String?
+  status       StatusBrng @default(Habis)
+  harga        Int?
+  jenis        String?
+  gambar       Gambar[]
+  satuan_jml   Int
+  type_jml     SatuanJml  @default(Pcs)
+  satuan_berat Int
+  type_brt     SatuanBrt  @default(Gr)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Gambar {
+  id        Int      @id @default(autoincrement())
+  url       String?
+  hashdel   String?
+  barangId  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Barang    Barang   @relation(fields: [barangId], references: [id])
+}
+
+enum StatusBrng {
+  Tersedia
+  Habis
+}
+
+enum SatuanJml {
+  Pcs
+  Pack
+}
+
+enum SatuanBrt {
+  Kg
+  Gr
+}
+
+enum Status {
+  nonActive
+  Active
+  Banned
+}
