@@ -1,8 +1,8 @@
 import { Request,Response } from "express"
-import { userEdit, userLog, userPassEdit, userRegist } from "../VALI/vali_user.ts"
+import { userEdit, userLog, userPassEdit, userRegist } from "../VALI/vali_user"
 import bcrypt from 'bcrypt';
-import { createToken } from "./TOKEN.ts";
-import { prismaDb2 } from "../Cfg/PRX.ts";
+import { createToken } from "./TOKEN";
+import { prismaDb2 } from "../Cfg/PRX";
 
 
 const prisma = prismaDb2;

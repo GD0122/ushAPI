@@ -1,5 +1,5 @@
 
-import { prismaDb1, prismaDb2 } from "../Cfg/PRX.ts";
+import { prismaDb1, prismaDb2 } from "../Cfg/PRX";
 import { Request,Response } from "express";
 
 

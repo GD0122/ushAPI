@@ -2,8 +2,8 @@ import { Request,Response, type NextFunction } from "express";
 
 
 import fs, { createReadStream } from "fs";
-import { CID, prismaDb2 } from "../Cfg/PRX.ts";
-import { clientIMGUR, } from "../Cfg/Qzx.ts";
+import { CID, prismaDb2 } from "../Cfg/PRX";
+import { clientIMGUR, } from "../Cfg/Qzx";
 
 
 const prisma = prismaDb2
