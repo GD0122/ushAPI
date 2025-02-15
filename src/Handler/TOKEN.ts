@@ -2,7 +2,17 @@
 import { Request,Response, NextFunction  } from "express"
 import jwt from 'jsonwebtoken';
 import { prismaDb2 } from "../Cfg/PRX";
-
+import {IncomingHttpHeaders} from 'http';
+declare module 'express'{
+    interface Request{
+        headers?:IncomingHttpHeaders
+        user?:{
+            name:string;
+            userId:number;
+        }
+       
+    }
+}
 
 
 const prisma =  prismaDb2
