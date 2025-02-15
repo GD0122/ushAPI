@@ -3,16 +3,10 @@ import { Request,Response, NextFunction  } from "express"
 import jwt from 'jsonwebtoken';
 import { prismaDb2 } from "../Cfg/PRX";
 import {IncomingHttpHeaders} from 'http';
-declare module 'express'{
-    interface Request{
-        headers?:IncomingHttpHeaders
-        user?:{
-            name:string;
-            userId:number;
-        }
-       
-    }
-}
+
+
+
+
 
 
 const prisma =  prismaDb2
@@ -45,27 +39,28 @@ export const RfToken = async(req:Request,res:Response)=>{
       return res.status(403).json({ message: 'No refresh token ' });
     }
     const decoded = verifyToken(refreshToken, 'refresh');
-    if (!decoded) {
+    if (!decoded && typeof decoded === 'string') {
         return res.status(401).json({ message: 'Invalid or expired refresh token' });
+      }else{
+        try {
+            const user = await prisma.userstatus.findFirst({
+                where:{
+                    userId:decoded.userId,
+                }
+            }).finally(async()=> await prisma.$disconnect());
+            if(user.refresh_token !== refreshToken  ) return res.status(401).json({ message: 'Invalid or expired refresh token' });
+            const acc = await createToken(decoded?.name,decoded?.userId,'20s',ACCTOKEN)
+            return res.status(200).json({acc: acc  })
+        } catch (error) {
+            return res.status(500).json({message:"Sorry something Err!!"})
+        }
+        
       }
-    try {
-        const user = await prisma.userstatus.findFirst({
-            where:{
-                userId:decoded.userId,
-              
-            }
-        }).finally(async()=> await prisma.$disconnect());
-        if(user.refresh_token !== refreshToken  ) return res.status(401).json({ message: 'Invalid or expired refresh token' });
-        const acc = await createToken(decoded?.name,decoded?.userId,'20s',ACCTOKEN)
-        return res.status(200).json({acc: acc  })
-    } catch (error) {
-        return res.status(500).json({message:"Sorry something Err!!"})
-    }
-    
+   
   
 }
 
-export  const authenticateToken = (req: Request  , res: Response      , next: NextFunction       ) => {
+export  const authenticateToken = (req: Request, res: Response , next: NextFunction) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];  
   

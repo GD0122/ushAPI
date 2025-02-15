@@ -7,6 +7,7 @@ import tokenR from "./Route/tokenRoute";
 import barangR from "./Route/barangRoute";
 import uploadsR from "./Route/uploadsRoute";
 import transR from "./Route/transRoute";
+import { IncomingHttpHeaders } from "http";
 // Create a new express application instance
 const app = express();
 
@@ -29,6 +30,16 @@ const Limiter = rateLimit({
     max:50,
     message:"Server sedang sibuk"
 })
+declare module 'express'{
+    interface Request{
+        headers?:IncomingHttpHeaders
+        user?:{
+            name:string;
+            userId:number;
+        }
+       
+    }
+}
 app.use(Limiter)
 // Define the root path with a greeting message
 app.get("/", (req: Request, res: Response) => {
