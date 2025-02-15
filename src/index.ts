@@ -8,6 +8,8 @@ import {barangR} from "./Route/barangRoute";
 import {uploadsR} from "./Route/uploadsRoute";
 import {transR} from "./Route/transRoute";
 import { IncomingHttpHeaders } from "http";
+import dotenv from 'dotenv';
+dotenv.config();
 // Create a new express application instance
 const app = express();
 
