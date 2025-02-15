@@ -25,9 +25,9 @@ const verifyToken = (token: string, type: 'access' | 'refresh') => {
       return null; 
     }
   };
-export  const createToken =async(name:string,userId:number,expired:string ,infoToke:string)=>{
+export  const createToken =async(name:string,userId:number|string,expired:'access'|'refresh' ,infoToke:string)=>{
     const payload = { name, userId};
-    const exp = expired?expired : '1d'
+    const exp = expired === 'access'?'20s' : '1d'
     const token = jwt.sign(payload, infoToke ,{expiresIn: exp});
     return token;
   };
@@ -49,7 +49,7 @@ export const RfToken = async(req:Request,res:Response)=>{
                 }
             }).finally(async()=> await prisma.$disconnect());
             if(user.refresh_token !== refreshToken  ) return res.status(401).json({ message: 'Invalid or expired refresh token' });
-            const acc = await createToken(decoded?.name,decoded?.userId,'20s',ACCTOKEN)
+            const acc = await createToken(decoded?.name,decoded?.userId,'access',ACCTOKEN)
             return res.status(200).json({acc: acc  })
         } catch (error) {
             return res.status(500).json({message:"Sorry something Err!!"})

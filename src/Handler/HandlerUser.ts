@@ -86,8 +86,8 @@ export const userLogin = async(req:Request,res:Response)=>{
         if(!user)return res.status(404).json({message:'User Not Found'})
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if(!isPasswordValid) return res.status(403).json({message:'Invalid Password'})
-        const  reftoken = await createToken(user.name,user.id,'1d',REFTOKEN)
-        const  acctoken = await createToken(user.name,user.id,'20s',ACCTOKEN)
+        const  reftoken = await createToken(user.name,user.id,'refresh',REFTOKEN)
+        const  acctoken = await createToken(user.name,user.id,'access',ACCTOKEN)
         const stats = await prisma.userstatus.upsert({
             where:{
                 userId:user.id
