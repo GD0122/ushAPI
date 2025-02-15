@@ -4,7 +4,7 @@ import { authenticateToken } from '../Handler/TOKEN';
 
 
 
-const userR = Router()
+export const userR = Router()
 
 // userR.get('/',(req:Request,res:Response)=>{
 //     res.status(200).json({message:'halaman user'})
@@ -15,4 +15,3 @@ userR.post('/login',userLogin)
 userR.delete('/logout', authenticateToken,userLogout)
 userR.put('/edit', authenticateToken,editUser)
 userR.put('/editpass',authenticateToken,editPassword)
-export default userR

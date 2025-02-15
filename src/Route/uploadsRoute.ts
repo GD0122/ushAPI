@@ -55,7 +55,7 @@ const File_filters = (req:any, file:any, cb:any) => {
 
   const upload = multer({ storage, fileFilter: File_filters });
 
-const uploadsR = Router()
+export const uploadsR = Router()
 
 // uploadsR.post('/add',upload.array('image',5),_IsImage,uploads_img)
 uploadsR.use((err:any, req:any, res:any, next:NextFunction) => {
@@ -68,4 +68,3 @@ uploadsR.use((err:any, req:any, res:any, next:NextFunction) => {
     next();
   });
 
-export default uploadsR

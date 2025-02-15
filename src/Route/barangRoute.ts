@@ -54,7 +54,7 @@ const File_filters = (req:any, file:any, cb:any) => {
   });
 
   const upload = multer({ storage, fileFilter: File_filters });
-const barangR = Router()
+export const barangR = Router()
 
 barangR.get('/vp/:page/:perPage',getBrng)
 barangR.get('/vn/:name',getBarangByName)
@@ -73,4 +73,3 @@ barangR.use((err:any, req:any, res:any, next:NextFunction) => {
     }
     next();
   });
-export default barangR
