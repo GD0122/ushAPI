@@ -11,9 +11,11 @@ import { prismaDb2 } from "../Cfg/PRX";
 
 
 const prisma = prismaDb2
-
-const delImgPath = async(imgs:any)=>{
-    const del = await Promise.all(imgs.map(async(img)=>{
+interface Img {
+    path: string;  // Assuming `img` has a 'path' property which is a string
+}
+const delImgPath = async(imgs:Img[])=>{
+    const del = await Promise.all(imgs.map(async(img:Img)=>{
         fs.unlinkSync(img.path)
     }))
 }
@@ -63,19 +65,20 @@ export const brngRegist = async(req:Request,res:Response)=>{
        }
       
        const delimg = await Promise.all(delimgIds.map(async(x:number)=>{
-            const gamb = await prisma.gambar.findMany({
+            const gamb = await prisma.gambar.findFirst({
                 where:{
-                    barangId:parseInt(x)
+                    id:Number(x)
                 },
                 select:{
                     url:true,
                     hashdel:true
                 }
             })
-           const xGD = await Del_img(gamb.hash)
+            if(!gamb) return res.status(404).json({message:"Image not found"})
+           const xGD = await Del_img(gamb?.hashdel)
             const del = await prisma.gambar.delete({
                 where:{
-                    id:parseInt(x)
+                    id:Number(x)
                 }
             }).finally( async()=> await prisma.$disconnect())
       
@@ -274,7 +277,7 @@ export const deleteBarang = async(req:Request,res:Response)=>{
         const delBrng = await prisma.$transaction(async(prism)=>{
             const gamb = await prism.gambar.findMany({
                 where:{
-                    barangId:parseInt(id)
+                    barangId:Number(id)
                 },
                 select:{
                     url:true,
@@ -287,12 +290,12 @@ export const deleteBarang = async(req:Request,res:Response)=>{
             }))
             const gam = await prism.gambar.deleteMany({
                 where:{
-                    barangId:parseInt(id)
+                    barangId:Number(id)
                 }
             })
             const brng = await prism.barang.delete({
                 where:{
-                    id:parseInt(id)
+                    id:Number(id)
                 }
             })
         }).finally( async()=> await prisma.$disconnect())

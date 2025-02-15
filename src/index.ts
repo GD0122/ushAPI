@@ -38,7 +38,7 @@ declare module 'express'{
             userId:number;
         }
         files?:any
-        validImages?:any
+        validImages?:Express.Multer.File[]
         invalidImages?:any
 
        
