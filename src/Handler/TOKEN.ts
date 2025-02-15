@@ -33,16 +33,16 @@ const verifyToken = (token: string, type: 'access' | 'refresh') => {
   };
 export  const createToken =async(name:string,userId:number,expired:string ,infoToke:string)=>{
     const payload = { name, userId};
-    const token = jwt.sign(payload, infoToke ,{expiresIn: expired});
+    const exp = expired?expired : '1d'
+    const token = jwt.sign(payload, infoToke ,{expiresIn: exp});
     return token;
   };
 
 
 export const RfToken = async(req:Request,res:Response)=>{
     const refreshToken = req.cookies.rn; 
-  
     if (!refreshToken) {
-      return res.status(403).json({ message: 'No refresh token provided' });
+      return res.status(403).json({ message: 'No refresh token ' });
     }
     const decoded = verifyToken(refreshToken, 'refresh');
     if (!decoded) {
