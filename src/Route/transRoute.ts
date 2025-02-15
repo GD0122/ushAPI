@@ -1,4 +1,4 @@
-import express,{Router} from 'express';
+import express,{Router,Request,Response} from 'express';
 import { authenticateToken } from '../Handler/TOKEN';
 import { _addPend, _addTRX, DelTrxx, getAllBrng, getAllStats, getItemsbyDay, getPopularItems, getTrx } from '../Handler/tranx';
 

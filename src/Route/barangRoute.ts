@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response,NextFunction } from 'express';
 import { brngRegist, deleteBarang, editBrng, getBarangById, getBarangByName, getBrng } from '../Handler/brngHand';
 import { authenticateToken } from '../Handler/TOKEN';
 import { _IsImage } from '../VALI/_isImage';
