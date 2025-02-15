@@ -1,7 +1,7 @@
 import { Request,Response } from "express"
 
 import { idBrng, nameBrng, pagePagi, regBrng } from "../VALI/vali_barang";
-import { _deleteFilesImg, Del_img, uploads_ImgUR } from "./uploads";
+import {  Del_img, uploads_ImgUR } from "./uploads";
 import fs from 'fs'
 import { prismaDb2 } from "../Cfg/PRX";
 
