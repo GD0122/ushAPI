@@ -1,12 +1,12 @@
 import express, { Request, Response } from "express";
-import userR from "./Route/userRoute";
+import {userR} from "./Route/userRoute";
 import cookieParser from 'cookie-parser';
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
-import tokenR from "./Route/tokenRoute";
-import barangR from "./Route/barangRoute";
-import uploadsR from "./Route/uploadsRoute";
-import transR from "./Route/transRoute";
+import {tokenR} from "./Route/tokenRoute";
+import {barangR} from "./Route/barangRoute";
+import {uploadsR} from "./Route/uploadsRoute";
+import {transR} from "./Route/transRoute";
 import { IncomingHttpHeaders } from "http";
 // Create a new express application instance
 const app = express();
