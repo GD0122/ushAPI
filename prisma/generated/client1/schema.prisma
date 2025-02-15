@@ -1,0 +1,27 @@
+generator client {
+  provider        = "prisma-client-js"
+  output          = "./generated/client1"
+  priviewFeatures = ["mongodb"]
+  engineType      = "liblary"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL1")
+}
+
+model admins {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}
+
+model trans {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  amount      BigInt
+  brng_id     BigInt?
+  category    String
+  createdAt   DateTime? @db.Date
+  deskripsi   String
+  jml_terjual BigInt?
+  updatedAt   DateTime? @db.Date
+  user_name   String
+}
