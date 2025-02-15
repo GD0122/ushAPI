@@ -68,25 +68,30 @@ export const RfToken = async(req:Request,res:Response)=>{
   
 }
 
-export  const authenticateToken = (req: Request, res: Response , next: NextFunction) => {
+export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];  
-  
+    
     if (!token) {
       return res.status(401).json({ message: 'Access token is missing' });
     }
   
-   
     const decoded = verifyToken(token, 'access');
-    
+  
     if (!decoded) {
       return res.status(403).json({ message: 'Invalid or expired access token' });
     }
   
+    // Narrowing the type to JwtPayload before accessing its properties
+    if (typeof decoded === 'string') {
+      return res.status(403).json({ message: 'Invalid or expired access token' });
+    }
+  
+    // Now that we've confirmed it's a JwtPayload, we can safely access `name` and `userId`
     req.user = {
-        name: decoded?.name as string,
-        userId: decoded?.userId as number
-      };
+      name: decoded.name as string,
+      userId: decoded.userId as number,
+    };
   
     next();
   };
