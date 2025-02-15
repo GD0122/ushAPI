@@ -5,9 +5,8 @@ import fs, { createReadStream } from "fs";
 import { CID, prismaDb2 } from "../Cfg/PRX";
 import { clientIMGUR, } from "../Cfg/Qzx";
 
+
 const prisma = prismaDb2
-
-
 
 
 export const checkBrng = async(req:Request,res:Response,next:NextFunction)=>{
@@ -48,12 +47,21 @@ export const Del_img = async(field:string)=>{
         throw error
     }
 }
-export const uploads_ImgUR = async(filesObj:any)=>{
-    const fileData = filesObj.path;
+export const uploads_ImgUR = async(filesObj:{path:string})=>{
+    const fileData = filesObj.path 
 
     try {
+        if (typeof fileData !== 'string') {
+            throw new Error('Invalid file path');
+        }
+        const stream = createReadStream(fileData);
+        
+        // Check if the stream is valid
+        if (!stream.readable) {
+            throw new Error('Invalid file stream');
+        }
         const response = await clientIMGUR.upload({
-            image: createReadStream(fileData),
+            image: stream as unknown as ReadableStream<any>,
             type: 'stream',
         })
  
