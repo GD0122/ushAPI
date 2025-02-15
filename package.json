@@ -8,6 +8,9 @@
     "start": "npx tsx --env-file=.env --watch  src/index.ts",
     "postinstall": "npx prisma generate --schema=prisma/schema.postgress.prisma && npx prisma generate --schema=prisma/schema.mongo.prisma"
   },
+   "engines": {
+    "node": "20.15.0 "
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
