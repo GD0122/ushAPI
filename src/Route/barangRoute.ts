@@ -1,11 +1,11 @@
 import { Router, Request, Response,NextFunction } from 'express';
-import { brngRegist, deleteBarang, editBrng, getBarangById, getBarangByName, getBrng } from '../Handler/brngHand';
-import { authenticateToken } from '../Handler/TOKEN';
-import { _IsImage } from '../VALI/_isImage';
+import { brngRegist, deleteBarang, editBrng, getBarangById, getBarangByName, getBrng } from '../Handler/brngHand.ts';
+import { authenticateToken } from '../Handler/TOKEN.ts';
+import { _IsImage } from '../VALI/_isImage.js';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
-import { checkBrng, ChekFileImgCount } from '../Handler/uploads';
+import { checkBrng, ChekFileImgCount } from '../Handler/uploads.ts';
 
 
 const File_filters = (req:any, file:any, cb:any) => {

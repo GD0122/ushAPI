@@ -1,6 +1,6 @@
 import express,{Router,Request,Response} from 'express';
-import { authenticateToken } from '../Handler/TOKEN';
-import { _addPend, _addTRX, DelTrxx, getAllBrng, getAllStats, getItemsbyDay, getPopularItems, getTrx } from '../Handler/tranx';
+import { authenticateToken } from '../Handler/TOKEN.ts';
+import { _addPend, _addTRX, DelTrxx, getAllBrng, getAllStats, getItemsbyDay, getPopularItems, getTrx } from '../Handler/tranx.ts';
 
 
 export const transR = Router()

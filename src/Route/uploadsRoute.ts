@@ -4,7 +4,7 @@ import multer from 'multer';
 
 import path from 'path';
 import fs from 'fs'
-import {_IsImage} from '../VALI/_isImage'
+import {_IsImage} from '../VALI/_isImage.js'
 
 
 

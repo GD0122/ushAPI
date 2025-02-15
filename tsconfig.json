@@ -10,6 +10,8 @@
       "outDir": "dist",
       "baseUrl": ".",
       "allowJs": true,
+      "noEmit": false,
+      "allowImportingTsExtensions": true,
       "paths": {
         "*": ["node_modules/*", "src/types/*"]
       },

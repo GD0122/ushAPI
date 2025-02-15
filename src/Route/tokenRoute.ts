@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { RfToken } from '../Handler/TOKEN';
+import { RfToken } from '../Handler/TOKEN.ts';
 
 
 export const tokenR = Router();

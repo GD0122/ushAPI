@@ -1,8 +1,8 @@
 
 import { Request,Response, NextFunction  } from "express"
 import jwt from 'jsonwebtoken';
-import { prismaDb2 } from "../Cfg/PRX";
-import {IncomingHttpHeaders} from 'http';
+import { prismaDb2 } from "../Cfg/PRX.ts";
+
 
 
 

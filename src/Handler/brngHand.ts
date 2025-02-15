@@ -1,9 +1,9 @@
 import { Request,Response } from "express"
 
-import { idBrng, nameBrng, pagePagi, regBrng } from "../VALI/vali_barang";
-import {  Del_img, uploads_ImgUR } from "./uploads";
+import { idBrng, nameBrng, pagePagi, regBrng } from "../VALI/vali_barang.ts";
+import {  Del_img, uploads_ImgUR } from "./uploads.ts";
 import fs from 'fs'
-import { prismaDb2 } from "../Cfg/PRX";
+import { prismaDb2 } from "../Cfg/PRX.ts";
 
 
 
