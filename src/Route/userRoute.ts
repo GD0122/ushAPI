@@ -1,6 +1,6 @@
 import { Router, } from 'express';
-import { editPassword, editUser, userLogin, userLogout, userRegister } from '../Handler/HandlerUser.ts';
-import { authenticateToken } from '../Handler/TOKEN.ts';
+import { editPassword, editUser, userLogin, userLogout, userRegister } from '../Handler/HandlerUser';
+import { authenticateToken } from '../Handler/TOKEN';
 
 
 
