@@ -8,6 +8,7 @@ import {barangR} from "./Route/barangRoute";
 import {uploadsR} from "./Route/uploadsRoute";
 import {transR} from "./Route/transRoute";
 import { IncomingHttpHeaders } from "http";
+import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
 // Create a new express application instance
@@ -46,6 +47,14 @@ declare module 'express'{
        
     }
 }
+let corsOptions = {
+    origin: ['http://localhost:3000', ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    maxAge:86400 
+}
+app.use(cors(corsOptions))
 app.use(Limiter)
 // Define the root path with a greeting message
 app.get("/", (req: Request, res: Response) => {
