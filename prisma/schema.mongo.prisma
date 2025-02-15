@@ -19,9 +19,9 @@ model trans {
   amount      BigInt
   brng_id     BigInt?
   category    String
-  createdAt   DateTime @db.Date
+  createdAt   DateTime? @db.Date
   deskripsi   String
   jml_terjual BigInt?
-  updatedAt   DateTime @db.Date
+  updatedAt   DateTime? @db.Date
   user_name   String
 }

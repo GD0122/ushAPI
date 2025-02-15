@@ -29,11 +29,11 @@ const genId = async (): Promise<number> => {
     }).finally(async () => await prisma.$disconnect());
   
     if (ex?.id) {
-      // If the generated ID already exists, recursively generate a new ID
+   
       return await genId();
     }
   
-    // Return the unique ID when found
+  
     return c;
   };
   

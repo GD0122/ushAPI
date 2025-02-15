@@ -16,14 +16,16 @@ export const _addTRX = async(req:Request,res:Response)=>{
     
     try {
         
-        const x = await prism1.trans.create({
-            data:{
-                category,
-                user_name:name,
-                amount:parseInt(amount),
-                deskripsi
-            }
-        }).finally(async()=>await prism1.$disconnect())
+        const transaction = await prismaDb1.trans.create({
+            data: {
+              category: String(category), // Ensure category is a string
+              user_name: String(name), // Ensure user_name is a string
+              amount: Number(amount), // Ensure amount is a number
+              deskripsi: String(userId),
+              createdAt: new Date(),     // Manually setting createdAt to the current date and time
+              updatedAt: new Date(), // Ensure deskripsi is a string
+            },
+          }).finally(async()=>await prism1.$disconnect())
         return res.status(201).json({message:"success",}).end()
     } catch (error) {
      
@@ -44,7 +46,9 @@ export const _addPend  = async(req:Request,res:Response)=>{
                     amount: amount,
                     deskripsi,
                     brng_id,
-                    jml_terjual:parseInt(jml)
+                    jml_terjual:parseInt(jml),
+                    createdAt: new Date(),     // Manually setting createdAt to the current date and time
+                    updatedAt: new Date(),
                 }
             });
             return tx1;
@@ -117,7 +121,7 @@ export const _addPend  = async(req:Request,res:Response)=>{
 
 export const getTrx = async(req:Request,res:Response)=>{
 
-    const {month,year} = req.query
+    const { month, year } = req.query as { month: string; year: string };
 
   
     try {
@@ -141,8 +145,8 @@ export const getTrx = async(req:Request,res:Response)=>{
 }
 
 export const DelTrxx = async(req:Request,res:Response)=>{
-    const {id,user_name} = req.user
-    const {id_trx} = req.query
+    const {name,userId} = req.user
+    const {id_trx} = req.query as {id_trx:string}
    
   
         const reqs = await prism1.trans.findUnique({
@@ -182,11 +186,11 @@ export const DelTrxx = async(req:Request,res:Response)=>{
              
                   const xs = await prisma.barang.update({
                             where: {
-                                id: reqs.brng_id
+                                id: Number(reqs?.brng_id) 
                             },
                             data: {
                                 satuan_jml:{
-                                    increment:parseInt(reqs.jml_terjual)
+                                    increment:Number(reqs.jml_terjual)
                                 }
                             }
                         });
@@ -250,7 +254,7 @@ export  const getPopularItems = async(req:Request,res:Response)=>{
 }
 
 export const getItemsbyDay = async(req:Request,res:Response)=>{
-    const {date} = req.query
+    const {date} = req.query as {date:string}
    
     const today = new Date(date);
     const startOfDay = new Date(today.setHours(0, 0, 0, 0));  
