@@ -1,7 +1,7 @@
-import type { Request,Response } from "express"
-import { PrismaClient } from "@prisma/client";
+import { Request,Response } from "express"
+
 import { idBrng, nameBrng, pagePagi, regBrng } from "../VALI/vali_barang";
-import { _deleteFilesImg, Del_img, upload_go, uploads_ImgUR } from "./uploads";
+import { _deleteFilesImg, Del_img, uploads_ImgUR } from "./uploads";
 import fs from 'fs'
 import { prismaDb2 } from "../Cfg/PRX";
 

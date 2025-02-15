@@ -1,11 +1,7 @@
 import { Request,Response, type NextFunction } from "express";
-import multer from "multer";
-import path from "path";
+
 
 import fs, { createReadStream } from "fs";
-import { Stream } from "stream"
-import { PrismaClient } from "@prisma/client";
-import axios from "axios";
 import { CID, prismaDb2 } from "../Cfg/PRX";
 import { clientIMGUR, } from "../Cfg/Qzx";
 
