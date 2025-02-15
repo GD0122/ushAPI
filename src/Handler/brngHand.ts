@@ -17,19 +17,26 @@ const delImgPath = async(imgs:any)=>{
         fs.unlinkSync(img.path)
     }))
 }
-const genId = async()=>{
+const genId = async (): Promise<number> => {
     const random = Math.floor(Math.random() * 9) + 1;
-    const c = await prisma.barang.count() + random
+    const count = await prisma.barang.count();
+    const c = count + random;
+  
     const ex = await prisma.barang.findUnique({
-        where:{
-            id:c
-        }
-    }).finally( async()=> await prisma.$disconnect())
-    if(ex?.id){
-       return await genId()
+      where: {
+        id: c,
+      },
+    }).finally(async () => await prisma.$disconnect());
+  
+    if (ex?.id) {
+      // If the generated ID already exists, recursively generate a new ID
+      return await genId();
     }
+  
+    // Return the unique ID when found
     return c;
-}
+  };
+  
 export const brngRegist = async(req:Request,res:Response)=>{
     const {name,userId} = req.user
     const {namab,jml,berat,tpjml,tpbrt,harga,desk,status,jenis,delimg_id,brng_id} = req.body
@@ -56,12 +63,22 @@ export const brngRegist = async(req:Request,res:Response)=>{
        }
       
        const delimg = await Promise.all(delimgIds.map(async(x:number)=>{
+            const gamb = await prisma.gambar.findMany({
+                where:{
+                    barangId:parseInt(x)
+                },
+                select:{
+                    url:true,
+                    hashdel:true
+                }
+            })
+           const xGD = await Del_img(gamb.hash)
             const del = await prisma.gambar.delete({
                 where:{
                     id:parseInt(x)
                 }
             }).finally( async()=> await prisma.$disconnect())
-            const xGD = await _deleteFilesImg(del?.url)
+      
        }))
       
     }else if(!brng_id && images.length === 0){
