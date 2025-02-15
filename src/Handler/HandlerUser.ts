@@ -1,9 +1,6 @@
 import { Request,Response } from "express"
 import { userEdit, userLog, userPassEdit, userRegist } from "../VALI/vali_user"
-import { PrismaClient } from "@prisma/client";
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import { isForInitializer } from "typescript";
 import { createToken } from "./TOKEN";
 import { prismaDb2 } from "../Cfg/PRX";
 
@@ -11,11 +8,14 @@ import { prismaDb2 } from "../Cfg/PRX";
 const prisma = prismaDb2;
 const REFTOKEN = process.env.REF_TOKEN
 const ACCTOKEN = process.env.ACC_TOKEN
+
 async function hashPassword(password:string){
     const saltRounds = 10; 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     return hashedPassword;
   }
+
+
 const emailCheck = async( name:  string,  email:string, )=>{
   
     const foundByEmail = await prisma.user.findUnique({

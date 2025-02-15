@@ -37,6 +37,10 @@ declare module 'express'{
             name:string;
             userId:number;
         }
+        files?:any
+        validImages?:any
+        invalidImages?:any
+
        
     }
 }

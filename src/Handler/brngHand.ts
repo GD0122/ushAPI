@@ -12,7 +12,7 @@ import { prismaDb2 } from "../Cfg/PRX";
 
 const prisma = prismaDb2
 
-const delImgPath = async(imgs)=>{
+const delImgPath = async(imgs:any)=>{
     const del = await Promise.all(imgs.map(async(img)=>{
         fs.unlinkSync(img.path)
     }))
