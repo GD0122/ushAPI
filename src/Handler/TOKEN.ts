@@ -39,23 +39,31 @@ export const RfToken = async(req:Request,res:Response)=>{
       return res.status(403).json({ message: 'No refresh token ' });
     }
     const decoded = verifyToken(refreshToken, 'refresh');
-    if (!decoded && typeof decoded === 'string') {
+    if (!decoded || typeof decoded === 'string') {
         return res.status(401).json({ message: 'Invalid or expired refresh token' });
-      }else{
+      } else {
         try {
-            const user = await prisma.userstatus.findFirst({
-                where:{
-                    userId:decoded.userId,
-                }
-            }).finally(async()=> await prisma.$disconnect());
-            if(user.refresh_token !== refreshToken  ) return res.status(401).json({ message: 'Invalid or expired refresh token' });
-            const acc = await createToken(decoded?.name,decoded?.userId,'access',ACCTOKEN)
-            return res.status(200).json({acc: acc  })
+          
+          const user = await prisma.userstatus.findFirst({
+            where: {
+              userId: decoded.userId,
+            }
+          }).finally(async () => await prisma.$disconnect());
+      
+          if (user && user.refresh_token !== refreshToken) {
+            return res.status(401).json({ message: 'Invalid or expired refresh token' });
+          }
+      
+          
+          const acc = await createToken(decoded?.name, decoded?.userId, 'access', ACCTOKEN);
+          
+          return res.status(200).json({ acc: acc });
         } catch (error) {
-            return res.status(500).json({message:"Sorry something Err!!"})
+          console.error(error);  // Log the error for debugging purposes
+          return res.status(500).json({ message: "Sorry something went wrong!" });
         }
-        
       }
+      
    
   
 }
