@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-      "module": "ESNext",  // Change to ES module type
+      "module": "CommonJS",  // Change to ES module type
       "esModuleInterop": true,
       "allowSyntheticDefaultImports": true,
       "target": "es6",

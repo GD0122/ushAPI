@@ -15,13 +15,13 @@ model admins {
 }
 
 model trans {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   amount      BigInt
   brng_id     BigInt?
   category    String
-  createdAt   DateTime @db.Date
+  createdAt   DateTime? @db.Date
   deskripsi   String
   jml_terjual BigInt?
-  updatedAt   DateTime @db.Date
+  updatedAt   DateTime? @db.Date
   user_name   String
 }
