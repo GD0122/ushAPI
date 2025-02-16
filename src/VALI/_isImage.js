@@ -18,7 +18,7 @@ export const _IsImage = async(req,res,next)=>{
     
      const val2 = await isImage(image.buffer)
   
-    if (!val2 || image.size > maxSizeImg || !validExtensions.includes(image.mimetype)  ) {
+    if (!val2 || image.size > maxSizeImg  ) {
         invalidImages.push(image);
         
       
