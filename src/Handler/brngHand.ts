@@ -132,8 +132,11 @@ export const brngRegist = async(req:Request,res:Response)=>{
                   url: uploadImgUR.link,
                   hashdel: uploadImgUR.id
                 },
-              });
-              fs.unlinkSync(img.path);  
+              }).finally(()=>{
+                fs.unlinkSync(img.path);
+                console.log("gambar berhasil dihapus")
+              })
+          
             }));
           }
       
