@@ -118,7 +118,13 @@ export const _addPend  = async(req:Request,res:Response)=>{
         return res.status(500).json({ message: "Sorry something went wrong!!" });
     }
 }
-
+const safeSerialize = (obj: any) => {
+    return JSON.parse(
+        JSON.stringify(obj, (key, value) =>
+            typeof value === 'bigint' ? value.toString() : value // Convert BigInt to string
+        )
+    );
+};
 export const getTrx = async(req:Request,res:Response)=>{
 
     const { month, year } = req.query as { month: string; year: string };
@@ -141,18 +147,9 @@ export const getTrx = async(req:Request,res:Response)=>{
                   }
             }
         }).finally(async()=>await prism1.$disconnect())
-        const safeSerialize = (obj: any) => {
-            return JSON.parse(
-                JSON.stringify(obj, (key, value) =>
-                    typeof value === 'bigint' ? value.toString() : value // Convert BigInt to string
-                )
-            );
-        };
+   
         const safeResponse = safeSerialize(resq);
-
-        console.log(safeResponse); // Log the safe response
     
-        // Send the safe serialized response
         return res.status(200).json({ data: safeResponse });
     } catch (error) {
         if(error.message){
@@ -291,7 +288,10 @@ export const getItemsbyDay = async(req:Request,res:Response)=>{
            
           
         }).finally(async()=>await prism1.$disconnect())
-        return res.status(200).json({dt:pens})
+        const safeResponse = safeSerialize(pens);
+    
+        return res.status(200).json({ data: safeResponse });
+       
     } catch (error) {
         if(error.message){
             return res.status(400).json({message:error.message})
