@@ -45,7 +45,7 @@ export const brngRegist = async(req:Request,res:Response)=>{
     
  
     const images = req.validImages  as Express.Multer.File[]
-    console.log('dasda',images)
+ 
     const { error } = regBrng.validate({namab,jml,berat,tpjml,tpbrt,harga,desk,status,jenis,brng_id})
     if (error) {
         //  await delImgPath(images)

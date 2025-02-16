@@ -1,7 +1,6 @@
 
-const sharp = await import('sharp');
-const imageType = await import('image-type');
-
+import sharp from 'sharp'
+import imageType from 'image-type';
 
 export const _IsImage = async(req,res,next)=>{
   
