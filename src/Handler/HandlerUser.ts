@@ -105,6 +105,7 @@ export const userLogin = async(req:Request,res:Response)=>{
         res.cookie('rn', reftoken, {
             httpOnly: true, 
             secure: true,
+            sameSite:'none',
             maxAge: 1 * 24 * 60 * 60 * 1000, 
         });
 
