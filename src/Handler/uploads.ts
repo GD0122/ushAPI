@@ -47,26 +47,27 @@ export const Del_img = async(field:string)=>{
         throw error
     }
 }
-export const uploads_ImgUR = async(filesObj:{path:string})=>{
-    const fileData = filesObj.path 
-
+export const uploads_ImgUR = async(filesObj:{buffer:Buffer})=>{
+    const fileData = filesObj.buffer
+   
     try {
-        if (typeof fileData !== 'string') {
-            throw new Error('Invalid file path');
+      
+        // const stream = createReadStream(fileData);
+        if (!Buffer.isBuffer(fileData)) {
+            throw new Error('Invalid file buffer');
         }
-        const stream = createReadStream(fileData);
-        
+        const base64Image = fileData.toString('base64');
         // Check if the stream is valid
-        if (!stream.readable) {
-            throw new Error('Invalid file stream');
-        }
+        // if (!stream.readable) {
+        //     throw new Error('Invalid file stream');
+        // }
         const response = await clientIMGUR.upload({
-            image: stream as unknown as ReadableStream<any>,
-            type: 'stream',
+            image: base64Image,
+            type: 'base64',
         })
  
         if (response.data) {
-            
+            console.log(response,'test')
             return response.data;  
           } else {
             throw new Error('Upload Failed');

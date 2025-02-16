@@ -45,9 +45,10 @@ export const brngRegist = async(req:Request,res:Response)=>{
     
  
     const images = req.validImages  as Express.Multer.File[]
+    console.log('dasda',images)
     const { error } = regBrng.validate({namab,jml,berat,tpjml,tpbrt,harga,desk,status,jenis,brng_id})
     if (error) {
-         await delImgPath(images)
+        //  await delImgPath(images)
          return res.status(400).json({message:error.message});
     }
    
@@ -85,7 +86,7 @@ export const brngRegist = async(req:Request,res:Response)=>{
        }))
       
     }else if(!brng_id && images.length === 0){
-        await delImgPath(images)
+        // await delImgPath(images)
         return res.status(400).json({message:"Sorry 1 item must have 1 images"})
        
     }
@@ -125,16 +126,15 @@ export const brngRegist = async(req:Request,res:Response)=>{
          
           if (images.length > 0) {
             await Promise.all(images.map(async (img) => {
+   
               const uploadImgUR = await uploads_ImgUR(img)
+             
               await prisma.gambar.create({
                 data: {
                   barangId: brng.id,
                   url: uploadImgUR.link,
                   hashdel: uploadImgUR.id
                 },
-              }).finally(()=>{
-                fs.unlinkSync(img.path);
-                console.log("gambar berhasil dihapus")
               })
           
             }));
@@ -142,7 +142,7 @@ export const brngRegist = async(req:Request,res:Response)=>{
       
         
           return brng;
-        });
+        },{timeout:10000});
       
         return transaction;
       };
@@ -150,13 +150,12 @@ export const brngRegist = async(req:Request,res:Response)=>{
     try {
        
         const result = await processTransaction();
-      
-        
         return res.status(201).json({message:"Success"})
     } catch (error) {
         if(error.code === "P2002"){
             return res.status(404).json({message:'item name used another id'})
         }
+        console.log(error,'thus err')
         return res.status(404).json({message:'Sorry something Err!!'})
     }finally {
         await prisma.$disconnect();  // Pastikan koneksi prisma ditutup

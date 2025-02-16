@@ -11,7 +11,7 @@ import {_IsImage} from '../VALI/_isImage'
 const File_filters = (req:any, file:any, cb:any) => {
     const allowedTypes = ['.jpg', '.jpeg', '.png'];
     const fileExtension = path.extname(file.originalname).toLowerCase();
-    console.log(`Received file: ${file.originalname}, type: ${fileExtension}`);
+    
   
     if (allowedTypes.includes(fileExtension)) {
       cb(null, true); 

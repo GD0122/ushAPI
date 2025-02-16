@@ -19,41 +19,41 @@ const File_filters = (req:any, file:any, cb:any) => {
       cb(new Error('Hanya file JPG atau PNG yang diizinkan!'), false); 
     }
   };
-  const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      const uploadDir = 'uploads';
+  // const storage = multer.diskStorage({
+  //   destination: function (req, file, cb) {
+  //     const uploadDir = 'uploads';
   
   
-      fs.access(uploadDir, fs.constants.F_OK, (err) => {
-        if (err) {
+  //     fs.access(uploadDir, fs.constants.F_OK, (err) => {
+  //       if (err) {
   
-          fs.mkdir(uploadDir, { recursive: true }, (mkdirErr) => {
-            if (mkdirErr) {
-              console.error('Gagal membuat folder uploads:', mkdirErr);
-              return cb(mkdirErr, null); 
-            }
+  //         fs.mkdir(uploadDir, { recursive: true }, (mkdirErr) => {
+  //           if (mkdirErr) {
+  //             console.error('Gagal membuat folder uploads:', mkdirErr);
+  //             return cb(mkdirErr, null); 
+  //           }
            
-            cb(null, uploadDir);
-          });
-        } else {
+  //           cb(null, uploadDir);
+  //         });
+  //       } else {
        
-          cb(null, uploadDir);
-        }
-      });
-    },
-    filename: function (req, file, cb) {
-      const fileExtension = path.extname(file.originalname).toLowerCase(); 
-      if (!file.originalname || !file.originalname.trim()) {
+  //         cb(null, uploadDir);
+  //       }
+  //     });
+  //   },
+  //   filename: function (req, file, cb) {
+  //     const fileExtension = path.extname(file.originalname).toLowerCase(); 
+  //     if (!file.originalname || !file.originalname.trim()) {
        
-        const error = new Error('Nama file tidak valid');
-        return cb(error, null);  
-      }
-      const fileName = Date.now()+"_img"+fileExtension;
-      cb(null, fileName);
-    }
-  });
+  //       const error = new Error('Nama file tidak valid');
+  //       return cb(error, null);  
+  //     }
+  //     const fileName = Date.now()+"_img"+fileExtension;
+  //     cb(null, fileName);
+  //   }
+  // });
 
-  const upload = multer({ storage, fileFilter: File_filters });
+  const upload = multer({ fileFilter: File_filters });
 export const barangR = Router()
 
 barangR.get('/vp/:page/:perPage',getBrng)
