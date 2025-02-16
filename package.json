@@ -32,7 +32,6 @@
     "express-rate-limit": "^7.5.0",
     "helmet": "^8.0.0",
     "http": "^0.0.1-security",
-    "image-type": "^5.2.0",
     "imgur": "^2.4.3",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",

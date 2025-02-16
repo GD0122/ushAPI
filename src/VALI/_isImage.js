@@ -1,6 +1,6 @@
 
 import sharp from 'sharp'
-import imageType from 'image-type';
+
 
 export const _IsImage = async(req,res,next)=>{
   
@@ -15,10 +15,10 @@ export const _IsImage = async(req,res,next)=>{
     try {
       
       const _ViewImage = await Promise.all(images?.map(async (image) => {
-     const isValid = await imageType(image.buffer)
+    
      const val2 = await isImage(image.buffer)
   
-    if (!val2 || image.size > maxSizeImg || !validExtensions.includes(isValid.ext)  ) {
+    if (!val2 || image.size > maxSizeImg || !validExtensions.includes(image.mimetype)  ) {
         invalidImages.push(image);
         
       
