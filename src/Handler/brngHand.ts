@@ -221,6 +221,7 @@ export const getBrng = async(req:Request,res:Response)=>{
 }
 export const getBarangByName = async(req:Request,res:Response)=>{
     const {name} = req.params
+    console.log(name)
     const { error } = nameBrng.validate({name})
     if (error) {
          return res.status(400).json({message:error.message});

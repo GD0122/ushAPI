@@ -10,6 +10,7 @@ import {transR} from "./Route/transRoute";
 import { IncomingHttpHeaders } from "http";
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { env } from "process";
 dotenv.config();
 // Create a new express application instance
 const app = express();
@@ -47,13 +48,23 @@ declare module 'express'{
        
     }
 }
+const xz = process.env.APP1
+const xz2 = process.env.APP2
 let corsOptions = {
-    origin: ['http://localhost:3000', ],
+    origin: ['http://localhost:3000',xz ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
     maxAge:86400 
 }
+const corsOptions2 = {
+    origin: [xz2],
+    methods: ['GET'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    maxAge:86400 
+  };
+  
 app.use(cors(corsOptions))
 app.use(Limiter)
 // Define the root path with a greeting message
@@ -62,7 +73,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 app.use('/user',userR)
 app.use('/token',tokenR)
-app.use('/brg',barangR)
+app.use('/brg',cors(corsOptions2),barangR)
 app.use('/img',uploadsR)
 app.use('/trans',transR)
 
