@@ -58,7 +58,7 @@ let corsOptions = {
     maxAge:86400 
 }
 const corsOptions2 = {
-    origin: [xz2],
+    origin: [xz2,'http://localhost:3000'],
     methods: ['GET'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
